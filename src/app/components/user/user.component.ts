@@ -13,12 +13,7 @@ export class UserComponent {
     this.user = {
       firstName: "Rimma",
       lastName: "Zun",
-      age: 64,
-      address: {
-        street: "841 Ridge Road",
-        city: "Highland Park",
-        state: "IL"
-      }
+      email: "email@domain.com"
     };
   }
 }
