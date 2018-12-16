@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { User } from "src/app/models/User";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { User } from "../../models/User";
 
 @Component({
   selector: "app-users",
@@ -14,47 +14,42 @@ export class UsersComponent implements OnInit {
   };
   users: User[];
   showExtended: boolean = true;
-  loading: boolean = true;
+  loaded: boolean = false;
   enableAdd: boolean = false;
-  showUserForm: boolean = true;
+  showUserForm: boolean = false;
+  @ViewChild("userForm") form: any;
 
   constructor() {}
 
   ngOnInit() {
-    setTimeout(() => {
-      this.users = [
-        {
-          firstName: "Rimma",
-          lastName: "Zun",
-          email: "email@domain.com",
-          isActive: true,
-          registered: new Date("01/02/2018 08:30:00"),
-          hide: true
-        },
-        {
-          firstName: "Rimma",
-          lastName: "Zun",
-          email: "email@domain.com",
-          isActive: false,
-          registered: new Date("03/011/2017 07:20:00"),
-          hide: true
-        },
-        {
-          firstName: "Rimma",
-          lastName: "Zun",
-          email: "email@domain.com",
-          isActive: true,
-          registered: new Date("11/02/2016 10:30:00"),
-          hide: true
-        },
-        {
-          firstName: "Rimma",
-          lastName: "Zun",
-          email: "email@domain.com"
-        }
-      ];
-      this.loading = false;
-    }, 500);
+    this.users = [
+      {
+        firstName: "John",
+        lastName: "Doe",
+        email: "john@gmail.com",
+        isActive: true,
+        registered: new Date("01/02/2018 08:30:00"),
+        hide: true
+      },
+      {
+        firstName: "Kevin",
+        lastName: "Johnson",
+        email: "kevin@yahoo.com",
+        isActive: false,
+        registered: new Date("03/11/2017 06:20:00"),
+        hide: true
+      },
+      {
+        firstName: "Karen",
+        lastName: "Williams",
+        email: "karen@gmaial.com",
+        isActive: true,
+        registered: new Date("11/02/2016 10:30:00"),
+        hide: true
+      }
+    ];
+
+    this.loaded = true;
   }
 
   // addUser() {
@@ -62,15 +57,23 @@ export class UsersComponent implements OnInit {
   //   this.user.registered = new Date();
 
   //   this.users.unshift(this.user);
+
   //   this.user = {
-  //     firstName: "",
-  //     lastName: "",
-  //   email: ""
-  //   };
+  //     firstName: '',
+  //     lastName: '',
+  //     email: ''
+  //   }
   // }
 
-  onSubmit(e) {
-    e.preventDefault();
-    console.log(123);
+  onSubmit({ value, valid }: { value: User; valid: boolean }) {
+    if (!valid) {
+      console.log("For is not valid");
+    } else {
+      value.isActive = true;
+      value.registered = new Date();
+      value.hide = true;
+      this.users.unshift(value);
+      this.form.reset();
+    }
   }
 }
